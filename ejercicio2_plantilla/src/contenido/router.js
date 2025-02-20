@@ -4,7 +4,7 @@ const contenidoRouter = express.Router();
 
 contenidoRouter.get('/normal', (req, res) => {
     let contenido = 'noPermisos';
-    if (// TODO: condicion) {
+    if (logged) {
         contenido = 'normal';
     }
     res.render('paginas/contenido', {
