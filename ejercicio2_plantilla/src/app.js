@@ -21,7 +21,6 @@ app.get('/', (req, res) => {
     }
     res.render('pagina', params);
 })
-/*
+
 app.use('/usuarios', usuariosRouter);
 app.use('/contenido', contenidoRouter);
-*/
