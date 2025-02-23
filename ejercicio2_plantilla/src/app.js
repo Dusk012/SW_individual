@@ -16,10 +16,10 @@ app.use('/', express.static(config.recursos));
 app.get('/', (req, res) => {
     // Parámetros que estarán disponibles en la plantilla
     const params = {
-        contenido: 'index', // fichero ejs que tiene el contenido específico para esta vista
+        contenido: 'paginas/index', // fichero ejs que tiene el contenido específico para esta vista
         session: req.session // Neesario para (entre otras cosas) utilizarlo en mostrarSaludo de cabecera.ejs
     }
-    res.render('paginas/contenido', params);
+    res.render('pagina', params);
 })
 /*
 app.use('/usuarios', usuariosRouter);

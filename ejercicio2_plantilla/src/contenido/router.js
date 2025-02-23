@@ -3,11 +3,11 @@ import express from 'express';
 const contenidoRouter = express.Router();
 
 contenidoRouter.get('/normal', (req, res) => {
-    let contenido = 'noPermisos';
+    let contenido = 'paginas/noPermisos';
     if (logged) {
-        contenido = 'normal';
+        contenido = 'paginas/normal';
     }
-    res.render('paginas/contenido', {
+    res.render('pagina', {
         contenido,
         session: req.session
     });
