@@ -7,6 +7,9 @@ export const config = {
     session: {
         resave: false,
         saveUninitialized: true,
-        secret: 'no muy secreto'
+        secret: 'no muy secreto',
+        login: false,
+        nombre: '',
+        esAdmin: false
     }
 }

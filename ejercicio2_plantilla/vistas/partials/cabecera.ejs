@@ -1,4 +1,16 @@
 <h1>Mi gran página web</h1>
-		<div class="saludo">
-			Usuario desconocido. <a href='/usuarios/login'>Login</a>	
-</div>
+
+<% function mostrarSaludo() { %>
+    <% if (session.login) { %> 
+        <div class="saludo">
+        	¡Hola, <%= session.nombre %>! <a href="/usuarios/logout">Logout</a>
+        </div>
+    <% } else { %>
+        <div class="saludo">
+            Usuario desconocido. <a href="/usuarios/login">Login</a>
+        </div>
+    <% } %>
+<% } %>
+
+<!-- Llamamos a la función para mostrar el saludo -->
+<%- mostrarSaludo() %>
