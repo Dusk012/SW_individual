@@ -1,23 +1,33 @@
-import { body } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 
 export function viewLogin(req, res) {
     res.render('pagina', {
         contenido: 'paginas/login',
         session: req.session,
-        error: ''
+        error: null //En un principio no tenemos error.
     });
 }
 
 export function doLogin(req, res) {
-    // Aquí deberías implementar la autenticación con tu base de datos o sistema de usuarios.
-    const { nombre, password } = req.body;
-    body('username').escape(); // Se asegura que eliminar caracteres problemáticos
+    body('nombre').escape(); // Se asegura que eliminar caracteres problemáticos
     body('password').escape(); // Se asegura que eliminar caracteres problemáticos
 
-    // Simulamos la autenticación con datos duros
+    const errores = validationResult(req);
+
+    if(!errores.isEmpty()){
+        res.render('pagina', {
+            contenido: 'paginas/login',
+            session: req.session,
+            error: errores.array()[0].msg
+        });
+    }
+    const { nombre, password } = req.body;
+
+    //Cuentas de usuario y administrador
     const user = { username: 'user', password: 'userpass' }; // Ejemplo de datos
     const admin = { username: 'useradmin', password: 'adminpass'};
 
+    //Comprobamos si la contraseña coincide con el usuario
     if (nombre === user.username && password === user.password) {
         req.session.nombre = user.username;
         req.session.esAdmin = false;
@@ -31,7 +41,7 @@ export function doLogin(req, res) {
         res.redirect('/contenido/normal');
     }
     else {
-        // Si las credenciales son incorrectas, mostramos el error
+        // Si la contraseña o el nombre es incorrecto, mostramos el error
         res.render('pagina', {
             contenido: 'paginas/login',
             session: req.session,
@@ -41,5 +51,12 @@ export function doLogin(req, res) {
 }
 
 export function doLogout(req, res, next) {
-    
+    //Eliminar los datos de la sesion con delete
+    delete req.session.login;
+    delete req.session.nombre;
+    if (req.session.esAdmin) {
+        delete req.session.esAdmin;
+    }
+
+    res.redirect('/contenido/normal');
 }

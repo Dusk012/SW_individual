@@ -3,7 +3,7 @@
 <% function mostrarSaludo() { %>
     <% if (session.login) { %> 
         <div class="saludo">
-        	¡Hola, <%= session.nombre %>! <a href="/usuarios/logout">Logout</a>
+        	Bienvenido, <%= session.nombre %> <a href="/usuarios/logout">(Salir)</a>
         </div>
     <% } else { %>
         <div class="saludo">

@@ -9,7 +9,7 @@ export const config = {
         saveUninitialized: true,
         secret: 'no muy secreto',
         login: false,
-        nombre: '',
+        nombre: null,
         esAdmin: false
     }
 }
