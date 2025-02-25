@@ -3,18 +3,25 @@ import express from 'express';
 const contenidoRouter = express.Router();
 
 contenidoRouter.get('/normal', (req, res) => {
-    let contenido = 'noPermisos';
-    if (// TODO: condicion) {
-        contenido = 'normal';
+    let contenido = 'paginas/invitacion';
+    if (req.session.login) {
+        contenido = 'paginas/normal';
     }
-    res.render('paginas/contenido', {
+    res.render('pagina', {
         contenido,
         session: req.session
     });
 });
 
 contenidoRouter.get('/admin', (req, res) => {
-    // TODO: tu código aquí
+    let contenido = 'paginas/noPermisos';
+    if (req.session.esAdmin) {
+        contenido = 'paginas/admin';
+    }
+    res.render('pagina', {
+        contenido,
+        session: req.session
+    });
 });
 
 export default contenidoRouter;
