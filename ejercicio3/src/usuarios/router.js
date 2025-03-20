@@ -6,7 +6,10 @@ import { autenticado } from '../middleware/auth.js';
 const usuariosRouter = express.Router();
 
 usuariosRouter.get('/login', autenticado(null), viewLogin);
-usuariosRouter.post('/login', autenticado(null, '/usuarios/home'), doLogin);
+usuariosRouter.post('/login'
+    , body('username', 'El username no puede ser vacío').trim().notEmpty()
+    , body('password', 'La contraseña no puede ser vacía').trim().notEmpty()
+    , autenticado(null, '/usuarios/home'), doLogin);
 usuariosRouter.get('/logout', doLogout);
 
 usuariosRouter.get('/home', autenticado('/usuarios/home'), viewHome);

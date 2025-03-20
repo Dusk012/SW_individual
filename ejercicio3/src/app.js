@@ -12,6 +12,7 @@ import usuariosRouter from './usuarios/router.js';
 import contenidoRouter from './contenido/router.js';
 import { logger } from './logger.js';
 import pinoHttp  from 'pino-http';
+import { flashMessages } from './middleware/flash.js';
 const pinoMiddleware = pinoHttp(config.logger.http(logger));
 
 export const app = express();
@@ -32,3 +33,15 @@ app.get('/', (req, res) => {
 })
 app.use('/usuarios', usuariosRouter);
 app.use('/contenido', contenidoRouter);
+
+app.use((request, response, next) => {
+    response.setFlash = (msg) => {
+        request.session.flashMsg = msg;    
+    };
+    
+    response.locals.getAndClearFlash = () => {
+        let msg = request.session.flashMsg;
+        delete request.session.flashMsg;
+        return msg;
+    };
+});

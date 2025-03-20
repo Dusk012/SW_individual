@@ -15,8 +15,18 @@ export function viewHome(req, res) {
 
 export function doLogin(req, res) {
     // Capturo las variables username y password
-    const username = req.body.username.trim();
-    const password = req.body.password.trim();
+
+    const result = validationResult(req);
+    if (! result.isEmpty()) {
+        const errores = result.mapped();
+        const datos = matchedData(req);
+        return render(req, res, 'paginas/login', {
+            datos,
+            errores
+        });
+    }
+    const username = req.body.username;
+    const password = req.body.password;
 
     try {
         const usuario = Usuario.login(username, password);
@@ -25,11 +35,15 @@ export function doLogin(req, res) {
         req.session.rol = usuario.rol;
 
         // XXX Redirect a la página adecuada
-        return render(req, res, 'paginas/home');
+        res.setFlash(`Encantado de verte de nuevo: ${usuario.username}`);
+        return res.redirect('usuarios/home');
 
     } catch (e) {
+        const datos = matchedData(req);
         render(req, res, 'paginas/login', {
-            error: 'El usuario o contraseña no son válidos'
+            error: 'El usuario o contraseña no son válidos',
+            datos,
+            errores: {}
         });
     }
 }
